@@ -1,2 +1,5 @@
-SSRF (Server-Side Request Forgery) là một lỗ hổng bảo mật xảy ra khi ứng dụng web cho phép người dùng cung cấp URL hoặc địa chỉ để server thực hiện HTTP request, mà không kiểm soát đầu vào đúng cách.
-→ Kẻ tấn công lợi dụng điều này để bắt server gửi request đến nơi không mong muốn, ví dụ như hệ thống nội bộ, metadata service, hoặc các service nội bộ chỉ server truy cập được.
+## Server-side Request Forgery (SSRF)
+- giả mạo yêu cầu phía máy chủ là một lỗ hổng bảo mật mà nó cho phép kẻ tấn công sửa đổi tham số trong yêu cầu gửi đi để khiến máy chủ thực hiện truy xuất đến một miền tùy ý mà đó có thể là các dịch vụ chỉ nằm trong nội bộ như là database. (Hiểu đơn giản là attack sử dụng sdt của gia đình để kêu bạn chuyển tiền, bạn không nghi ngờ gì cả mà trực tiếp gửi lun).
+#### VD1:
+- mình có đường dẫn `/upload?file_url=` dùng để nhập url ảnh để tải lên server. Thì thông thường mình sẽ nhập url mình muốn vào, nhưng nếu server nó không thực hiện việc valid data mà xử lí lun thì mình có thể sử dụng các giao thức `tcp, ftp, telnet, file, ...` dể truy cập url của server để lấy data của chính nó: `/upload?file_url=localhost:1337/data` hoặc `/upload?file_url=file:///etc/passwd`. Thông thường thì /upload sẽ là public để xem ảnh chẵn hạn thì ta có thể truy cập vào đó để lấy data ra. Sau khi biết có lỗ hỏng chúng ta sẽ có thể sử dụng brute force để dò các đường dẫn khác.
+- 
