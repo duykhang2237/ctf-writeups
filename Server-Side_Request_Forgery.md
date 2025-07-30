@@ -43,7 +43,7 @@ if validate_url(url):
 ```
 - Cùng phân tích đoạn code trên, đầu tiên url sẽ được truyền vào biến `valid_url` để xem đúng format chưa, tiếp đến xuống biến `ip_address` nó sẽ phân giải tên miền thành địa chỉ ip để check xem có phải localhost hay không rồi return về True or False, tiếp đến nhìn xuống dòng gần cuối câu lệnh if sẽ gọi hàm `validate_url` nếu đúng thì sẽ gọi request đến url đó, nhìn vào đây mình phát hiện là nó sẽ thực hiện gọi tên miền 2 lần, lần 1 để check và lần 2 để gọi request. Từ đó mình có thể tấn công bằng `DNS Rebinding`(kỹ thuật này nói ngắn gọn là sẽ thay đổi địa chỉ DNS trong 1 time nào đó). Chúng ta sẽ tận đụng cơ chế TTL(Time To Live) nói đơn giản là khi DNS đầu tiên được gửi đến nó kèm theo TTL để lưu vào bộ nhớ cache giúp những lần truy cập sau nhanh hơn và khi nào TTL hết hạn thì sẽ bị delete và thực hiện update lại DNS. Để tấn công chúng ta sẽ phải cài đặt TTL trên domain của ta càng ngắn càng tốt để khi vừa vượt qua hàm if là phải xóa lun để update lại ip mới, đó là các hoạt động của kỹ thuật này.
 - Cách tấn công:
-  +  Tạo 1 file index.php
+Tạo 1 file index.php
 ```php
 <?php 
 $temp = rand(0, 1);
@@ -53,7 +53,7 @@ if($temp == 1){
 ?>
 ```
 - Ở đây mình dùng hàm rand để random 2 số 0 và 1, nếu như 0 thì sẽ return về url bình thường có nếu là 1 thì sẽ redirect đến `http://localhost:1337/flag` (Ở đây dựa vào độ may mắn nhé ae =}} )
-- các run
+- Cách run
 ```
 php -S 0.0.0.0:1234 
 ngrok http localhost:1234
@@ -77,8 +77,9 @@ if __name__ == '__main__':
         thread.start()
 ```
 - file python này sẽ thực hiện gọi request đến server, vòng for sẽ có tác dụng gọi 5 multitasks request cùng 1 lúc đến server đễ có thể tấn công.
-- Các run
+- Cách run
 ```
 python3 payload.py | grep 'flag{'
 ```
 Và dựa vào độ máy mắn của ae để chúng ta xem có flag ở lần gọi file đầu tiên không =))
+
