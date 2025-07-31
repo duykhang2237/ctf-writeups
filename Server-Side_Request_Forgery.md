@@ -6,7 +6,7 @@
 - vẫn tiếp tục với localhost nhưng ở vd2 thì `localost` và `127.0.0.1` bị đưa vào backlist để tránh user có thể gửi để thực thi SSRF, nhưng ở đây ta sẽ không dùng http://localhost hay http://127.0.0.1 nữa mà ta sẽ thay bằng mã decimal của ip: `127.0.0.1 -> 2130706433` hoặc `127.1` thì ngay lúc này ta có thể đã pypass được nếu server không check mã này. (hoặc nếu bị chặn thì mình sẽ sử dụng 1 domain của mình và trỏ dns về 127.0.0.1 để thử)
 #### VD3:
 - tiếp tục nếu sử dụng vd2 thì server không thực hiện chặn, nhưng nếu server đã đi trước chúng ta 1 bước là phân giải tên miền rồi valid url rồi thì làm sao đây. Thông thường những trang web sẽ có những url trả về status 3xx thì nó sẽ chuyển hướng url về domain chính `redirect.url.com` thì nếu server có cấu hình redirect thì sẽ trỏ về url của trang. Ta có thể tận dụng nó để thử, thông thường là `redirect.url, ...`
-#### VD4: HTML to PDF 
+#### VD4: HTML to PDF (https://battle.cookiearena.org/challenges/web/html-to-pdf)
 - ở trang web có chức năng là html to pdf thì ta có thể sử dụng file html chứa 1 đoạn mã chèn để lấy thông tin của máy chủ sau đó tải về máy và sử dụng tool để lấy data ra:
 - Cách tiến hành: đầu tiên mình sẽ tạo 1 file index.html chứ đoạn code `<link rel=attachment href="file:///flag.txt">` sao đó mình mở port `python3 http.server 8888` và đưa lên mạng bằng `ngrok http 8888`, lúc này mình sẽ lấy url của ngrok đưa vào form của web html to pdf và ấn submit, thì khi đó mình sẽ nhận được 1 file pdf rỗng. Tiếp tục mình sẽ sử dụng tool pdfdetach của linux (là một tiện ích dòng lệnh được sử dụng để liệt kê hoặc trích xuất các tệp đính kèm (embedded files) từ các tệp PDF). Mình mở cmd và sử dụng lệnh:
 - <img width="1085" height="148" alt="image" src="https://github.com/user-attachments/assets/5e15374a-eab1-46ef-9dcf-eb9612530f8e" />
@@ -21,7 +21,7 @@ thì sao khi thực hiện lệnh 2 ta sẽ nhận về được 1 file flag.txt
 Shellshock hiểu đơn giản là dạng lỗ hổng liên quan đến các Bash version (đến Version 4.3 của GNU Bash) có thể bị khai thác để thực thi các command vượt thẩm quyền cho phép. Như cái payload ở trên thì ý tưởng là múc cái kết quả command whoami rồi chạy nslookup với cái subdomain tương ứng;
 <img width="1930" height="606" alt="image" src="https://github.com/user-attachments/assets/4a6b7709-6f7c-459e-a2db-ca226f357bbd" />
 thế là tôi là lấy được username, còn có thể sử dụng để lấy những thứ khác.
-#### VD6: Kỹ thuật DNS Rebinding ( Kỹ thuật SSRF nâng cao)
+#### VD6: Kỹ thuật DNS Rebinding ( Kỹ thuật SSRF nâng cao) (https://battle.cookiearena.org/challenges/web/difference-check)
 - Ta sẽ nhìn vào đoạn code sao đây
 ```python
 from urllib.parse import urlparse
