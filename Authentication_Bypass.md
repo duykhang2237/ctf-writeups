@@ -4,7 +4,7 @@
   + Xác thực người dùng (OTP, API Keys, OAuth, face, ...)
   + Login Account & Password
   + Basic Authentication
-#### AUthorization:
+#### Authorization:
 - Gồm có:
   + Cấp quyền cho người dùng
   + Kiểm soát truy cập (Access Control)
