@@ -18,4 +18,9 @@ Các kiểu tấn công:
   + Nếu server không xử dụng Header X-Forwarded-For mà sử dụng cơ chế khóa IP nếu truy cập sai quá nhiều lần, nhưng vì giữ chân người dùng họ sẽ reset nếu người dùng nhập đúng, từ đó ta có thể tấn công bằng cách sử dụng 1 acc brute force và sử dụng 1 acc đúng để bypass cơ chế tấn công này
   + Thay vì server sẽ chặn IP, sẽ có lúc server sẽ khóa những username đã có trong database login nhiều lần, ta có thể tận dụng để dò username bằng cách gửi 1 username đó nhiều lần, nếu nó gửi về khóa tk trong 1 khoảng thời gian thì ta xác định đây là username có thể tấn công và cứ thế chạy trâu password.
 - Tấn công Two-factor Authentication(2FA)
-  +  
+  + Cách đơn giản nhất là ta có thể sử dụng lấy thiết bị của username hoặc sử dụng các phương pháp để có thể lấy mã OTP
+  + Cơ chế xác thực (trá hình), thực tế hệ thống đã cho phép truy cập ngay khi login, nhưng vẫn dẫn đến trang xác thực (https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-simple-bypass)
+  + Brute force mã OTP, nếu server có lưu mã cookie như `verify=carlos` thì ta có thể gán username và thử lại nếu hệ thống không có chặn thử nhiều lần, mà mỗi OTP chỉ có 4 số thì ta hoàn toàn có thể bypass được (https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-broken-logic)
+- Tấn công brute force qua mã Cookie: `Cookie: stay-logged-in=d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw` nhìn vào đây, rất có thể mã cookie đã được mã hóa dưới dạng base64 -> khi decode base64 ta có `wiener:51dc30ddc473d43a6011e9ebba6ca770` thì cookie có dạng e1:e2 thì e1 là username thì e2 rất có thể là password đang được mã hóa, sau 1 lúc mình decode thì khi đến mã md5 nó đã hiện `peter` trùng với tk của đề bài, mình có thể chèn password đã mã hóa vào đây để chạy brute force.
+- <img width="3057" height="1696" alt="image" src="https://github.com/user-attachments/assets/492fb0e6-b309-449b-aa20-e70a47bd76e2" />
+
