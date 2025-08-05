@@ -35,3 +35,13 @@ SQL injection (SQLi) là một kỹ thuật tấn công mạng nguy hiểm, tron
     + Dump dữ liệu: `?id=-1 uinion select 1,group_concat(username,0x3a,password),3 from users--`
 #### Inference SQL Injection
 1. Boolean
+- Thay vì DB return về dữ liệu thì nó chỉ return về đúng hay sai, lúc này ta sử dụng brute force để đoán
+- URL: http://target.com/page.php?id=1 thì
+  ?id=1 AND 1=1 --> đúng → trang bình thường
+  ?id=1 AND 1=2 --> sai → trang trắng, khác giao diện
+- Khi đã xác định có inference thì ta sẽ brure force. Ở đây mình sẽ tìm password của admin
+  1. Trước tiên mình sẽ tìm length để dễ đoán hơn `?id=1 and (select length(password) from users where username='admin') >= $number$` ở đây number, mình sẽ check bằng thuật toán chặt nhị phân để giảm đi số request đoán
+  2. Khi đã xác định được length thì mình sẽ viết tool hoặc sử dụng burp intruder để check bằng cách
+  `?id=1 and (select subtr(password,$num$,1) from users where username='admin') = '$char$'` thì 2 biến num và char bạn sẽ thay bằng các ký tự thích hợp
+2. Time-based
+- Nếu server có chức năng chặn nhiều request mà sai nhiều lần đến thì sao? ta sẽ sử dụng 1 kỹ thuật tìm time trả về của request, ý tưởng ở đây là sẽ chuyển ký tự sang mã ascii để gắn vào hàm sleep từ đó ta dựa vào time để tìm đáp án, tuy nhiên đây sẽ có sai số vì còn dựa vào đường truyền, vị trí.... nên có thể ảnh hưởng rất nhiều đến thời gian trả về nên kỹ thuật này không được áp dụng nhiều (ta có thể sử dụng trung bình cộng của khoảng 100 request để tìm thời gian nhưng chỉ là tương đối)
