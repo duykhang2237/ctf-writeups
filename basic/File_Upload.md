@@ -25,9 +25,13 @@ Nếu họ chỉ check ở phía front-end thôi thì không có gì cả, ta ch
   <img width="1857" height="637" alt="image" src="https://github.com/user-attachments/assets/820f4615-c5e7-40b8-87b0-8b1e500c494d" />
 Còn bây giờ nếu không check ở phía front-end nữa mà hệ thống check ở phía back-end thì sao?
 giả sử hệ thống nó sẽ str_replace("php", "") thì khi ta upload shell.php -> shell thì ta đơn giản là upload shell.p.phphp hoặc shell..phpphp .....
+Còn 1 cách nữa là có thể sử dụng giá trị null để có thể upload mà chặn đuôi đằng sau vd `shell.php%00.jpg` thì nó sẽ hiểu rằng `shell.php`
 #### Trường Hợp 4
 Nếu hệ thống kiểm tra bằng magic byte để xem xem định dạng file là gì thì sao? thật chất nó chỉ check đuôi file png ở đầu byte thì ta có thể chỉnh sửa ở thân byte
   <img width="1076" height="191" alt="image" src="https://github.com/user-attachments/assets/159d88e0-5c3e-408d-a771-845ab610a915" />
+Hoặc có thể xử dụng tool để copy định dạng ảnh sang file php sao đó sửa thuộc tính commen của file php
+
+`exiftool -comment="<?php echo 'START ' . file_get_contents('/home/carlos/secret') . ' END'; ?>" fdsfdfd.png -o test.php`
 #### Trường Hợp 5
 Giả sử ta biết được web đang chạy apache thì ta xem xem là có thể tạo hay sửa file .htaccess không, nếu được thì ta có thể upload 1 đuôi file lạ vào xong sẽ khai báo cho .htaccess để cho biết là đuôi file lạ đó sẽ là đuôi .php chẵn hạn `addhandler application/x-httpd-php .php .xyz` thì đuôi xyz sẽ hiểu là đuôi php
 
