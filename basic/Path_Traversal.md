@@ -9,6 +9,7 @@ Ví dụ payload cơ bản:
 ```
 ../../../../etc/passwd
 ..%2f..%2f..%2f..%2fconfig.php
+....//..../....//....// (nếu hệ thống sử dụng cơ chế lọc đơn giản)
 ```
 
 ---
