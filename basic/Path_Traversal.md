@@ -104,6 +104,3 @@ else:
     print("Không thể đọc file")
 ```
 
----
-
-**Tác giả:** NDK - Báo cáo Path Traversal nâng cao
